@@ -27,6 +27,13 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 #define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
 #endif
 
+template<class Interface> inline void SafeRelease(Interface * *ppInterfaceToRelease) {
+	if (*ppInterfaceToRelease != NULL) {
+		(*ppInterfaceToRelease)->Release();
+
+		(*ppInterfaceToRelease) = NULL;
+	}
+}
 
 class VisualEditor
 {
@@ -41,5 +48,17 @@ private:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	HWND m_hwnd;
 
+	ID2D1Factory* m_pDirect2DFactory;
+	ID2D1HwndRenderTarget* m_pRenderTarget;
+
+	HRESULT CreateDeviceIndependentResources();
+
+	HRESULT OnRender(float x, float y);
+
+	HRESULT CreateDeviceResources();
+
+	void DiscardDeviceResources();
+
+	void OnResize(UINT width, UINT height);
 };
 
