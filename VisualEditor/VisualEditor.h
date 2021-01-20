@@ -10,6 +10,9 @@
 #include <d2d1helper.h>
 #include <dwrite.h>
 #include <wincodec.h>
+#include <vector>
+#include <memory>
+#include "Layer.h"
 
 using namespace std;
 
@@ -48,7 +51,10 @@ private:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	HWND m_hwnd;
 
+	vector<shared_ptr<Layer>> layers;
+
 	ID2D1Factory* m_pDirect2DFactory;
+
 	ID2D1HwndRenderTarget* m_pRenderTarget;
 
 	HRESULT CreateDeviceIndependentResources();
@@ -60,5 +66,9 @@ private:
 	void DiscardDeviceResources();
 
 	void OnResize(UINT width, UINT height);
+
+	D2D1_COLOR_F HexToColor(std::string hexColor);
+
+	D2D1_COLOR_F backColor;
 };
 

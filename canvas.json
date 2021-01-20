@@ -1,0 +1,24 @@
+{
+  "backColor": "c8fdc5ff",
+  "foreColor": "ffffffff",
+  "layers": [
+    {
+      "type": "rectangle",
+      "x": 100,
+      "y": 100,
+      "width": 200,
+      "height": 500,
+      "backColor": "c8fdc5ff",
+      "foreColor": "ffffffff",
+      "centerX": 0.5,
+      "centerY": 0.5,
+      "name": "rect1",
+      "id": "4f5c0e08-a324-4a98-bd63-5720f476a9d7",
+      "parentId": "b531911a-e0c8-4fb7-af4f-8372d39f3ba0",
+      "zorder": 1,
+      "visible": true
+
+    }
+  ]
+
+}

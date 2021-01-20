@@ -1,6 +1,7 @@
 #include "VisualEditor.h"
 #include <windowsx.h>
 #include <direct.h>
+#include "RectangleLayer.h"
 
 int WINAPI WinMain(
 	_In_ HINSTANCE,
@@ -31,10 +32,28 @@ VisualEditor::VisualEditor() {
 	m_hwnd = nullptr;
 	m_pDirect2DFactory = nullptr;
 	m_pRenderTarget = nullptr;
+
+	RectangleLayer* rec = new RectangleLayer();
+	rec->SetBounds(50, 50, 200, 300);
+	rec->SetBackColor(HexToColor("ffc0cbFF"));
+
+	layers.push_back(std::shared_ptr<Layer>(rec));
+
+	rec = new RectangleLayer();
+	rec->SetBounds(150, 150, 200, 300);
+	rec->SetBackColor(HexToColor("C8FDC5FF"));
+
+	layers.push_back(std::shared_ptr<Layer>(rec));
+
+	backColor = HexToColor("e73895ff");
 }
 
 VisualEditor::~VisualEditor() {
+	SafeRelease(&m_pDirect2DFactory);
+	SafeRelease(&m_pRenderTarget);
 
+	layers.clear();
+	layers.shrink_to_fit();
 }
 
 HRESULT VisualEditor::Initialize() {
@@ -169,8 +188,12 @@ HRESULT VisualEditor::OnRender(float x, float y)
 	if (SUCCEEDED(hr))
 	{
 		m_pRenderTarget->BeginDraw();
-		m_pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::YellowGreen));
+		m_pRenderTarget->Clear(backColor);
 
+		for (auto& n : layers)
+		{
+			n.get()->Draw(m_pRenderTarget);
+		}
 
 		hr = m_pRenderTarget->EndDraw();
 	}
@@ -203,6 +226,11 @@ HRESULT VisualEditor::CreateDeviceResources()
 			D2D1::HwndRenderTargetProperties(m_hwnd, size),
 			&m_pRenderTarget
 		);
+
+		for (auto& n : layers)
+		{
+			n.get()->Initialize(m_pRenderTarget);
+		}
 	}
 
 	return hr;
@@ -215,4 +243,19 @@ void VisualEditor::DiscardDeviceResources()
 
 void VisualEditor::OnResize(UINT width, UINT height)
 {
+}
+
+D2D1_COLOR_F VisualEditor::HexToColor(std::string hexColor)
+{
+	int red = 0;
+	int green = 0;
+	int blue = 0;
+	int alpha = 0;
+
+	red = std::stoi(hexColor.substr(0, 2), 0, 16);
+	green = std::stoi(hexColor.substr(2, 2), 0, 16);
+	blue = std::stoi(hexColor.substr(4, 2), 0, 16);
+	alpha = std::stoi(hexColor.substr(6, 2), 0, 16);
+
+	return D2D1::ColorF::ColorF(red / 255.0f, green / 255.0f, blue / 255.0f, alpha / 255.0f);
 }
