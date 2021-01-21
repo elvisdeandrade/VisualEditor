@@ -2,6 +2,7 @@
 #include <windowsx.h>
 #include <direct.h>
 #include "RectangleLayer.h"
+#include "SelectToolNode.h"
 
 int WINAPI WinMain(
 	_In_ HINSTANCE,
@@ -46,6 +47,18 @@ VisualEditor::VisualEditor() {
 	layers.push_back(std::shared_ptr<Layer>(rec));
 
 	backColor = HexToColor("e73895ff");
+
+	D2D_POINT_2F start;
+	D2D_POINT_2F end;
+
+	start.x = 10;
+	start.y = 10;
+	end.x = 110;
+	end.y = 110;
+
+	selectTool = new SelectTool();
+	
+	selectTool->SetBounds(start, end);
 }
 
 VisualEditor::~VisualEditor() {
@@ -159,6 +172,22 @@ LRESULT CALLBACK VisualEditor::WndProc(HWND hwnd, UINT message, WPARAM wParam, L
 					result = 0;
 					wasHandled = true;
 					break;
+				case WM_SIZE:
+					{
+						UINT width = LOWORD(lParam);
+						UINT height = HIWORD(lParam);
+						vsEditor->OnResize(width, height);
+					}
+					result = 0;
+					wasHandled = true;
+					break;
+				case WM_DISPLAYCHANGE:
+					{
+						InvalidateRect(hwnd, NULL, FALSE);
+					}
+					result = 0;
+					wasHandled = true;
+					break;
 			}
 		}
 
@@ -194,6 +223,8 @@ HRESULT VisualEditor::OnRender(float x, float y)
 		{
 			n.get()->Draw(m_pRenderTarget);
 		}
+
+		selectTool->Draw(m_pRenderTarget);
 
 		hr = m_pRenderTarget->EndDraw();
 	}
@@ -231,6 +262,8 @@ HRESULT VisualEditor::CreateDeviceResources()
 		{
 			n.get()->Initialize(m_pRenderTarget);
 		}
+
+		selectTool->Initialize(m_pRenderTarget);
 	}
 
 	return hr;
@@ -243,6 +276,10 @@ void VisualEditor::DiscardDeviceResources()
 
 void VisualEditor::OnResize(UINT width, UINT height)
 {
+	if (m_pRenderTarget)
+	{
+		m_pRenderTarget->Resize(D2D1::SizeU(width, height));
+	}
 }
 
 D2D1_COLOR_F VisualEditor::HexToColor(std::string hexColor)

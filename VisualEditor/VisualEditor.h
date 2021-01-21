@@ -13,6 +13,7 @@
 #include <vector>
 #include <memory>
 #include "Layer.h"
+#include "SelectTool.h"
 
 using namespace std;
 
@@ -70,5 +71,7 @@ private:
 	D2D1_COLOR_F HexToColor(std::string hexColor);
 
 	D2D1_COLOR_F backColor;
+
+	SelectTool* selectTool;
 };
 

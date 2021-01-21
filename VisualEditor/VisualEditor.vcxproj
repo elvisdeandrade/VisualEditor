@@ -142,11 +142,15 @@
   <ItemGroup>
     <ClInclude Include="Layer.h" />
     <ClInclude Include="RectangleLayer.h" />
+    <ClInclude Include="SelectTool.h" />
+    <ClInclude Include="SelectToolNode.h" />
     <ClInclude Include="VisualEditor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Layer.cpp" />
     <ClCompile Include="RectangleLayer.cpp" />
+    <ClCompile Include="SelectTool.cpp" />
+    <ClCompile Include="SelectToolNode.cpp" />
     <ClCompile Include="VisualEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

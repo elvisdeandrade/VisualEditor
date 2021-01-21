@@ -24,6 +24,12 @@
     <ClInclude Include="RectangleLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SelectToolNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VisualEditor.cpp">
@@ -33,6 +39,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Layer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectToolNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectTool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

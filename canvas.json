@@ -16,7 +16,9 @@
       "id": "4f5c0e08-a324-4a98-bd63-5720f476a9d7",
       "parentId": "b531911a-e0c8-4fb7-af4f-8372d39f3ba0",
       "zorder": 1,
-      "visible": true
+      "visible": true,
+      "borders": 1234,
+      "borderWidth": ""
 
     }
   ]
